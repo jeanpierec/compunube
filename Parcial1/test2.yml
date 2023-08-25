@@ -1,0 +1,28 @@
+config:
+  target: "http://192.168.100.3"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+
+scenarios:
+  - name: "Escenario 1 - Baja demanda"
+    flow:
+      - get:
+          url: "/"
+  - name: "Escenario 2 - Demanda media"
+    flow:
+      - get:
+          url: "/"
+      - think: 2
+      - get:
+          url: "/page2"
+  - name: "Escenario 3 - Alta demanda"
+    flow:
+      - get:
+          url: "/"
+      - think: 1
+      - get:
+          url: "/page2"
+      - think: 1
+      - get:
+          url: "/page3"

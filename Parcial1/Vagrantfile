@@ -1,0 +1,58 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  if Vagrant.has_plugin? "vagrant-vbguest"
+    config.vbguest.no_install  = true
+    config.vbguest.auto_update = false
+    config.vbguest.no_remote   = true
+  end
+
+  config.vm.define :servidorUbuntu do |servidorUbuntu|
+    servidorUbuntu.vm.box = "bento/ubuntu-22.04"
+    servidorUbuntu.vm.network :private_network, ip: "192.168.100.3"
+    servidorUbuntu.vm.hostname = "servidorUbuntu"
+    servidorUbuntu.vm.boot_timeout = 600
+    servidorUbuntu.vm.box_download_insecure = true
+    servidorUbuntu.ssh.username = "vagrant"
+    servidorUbuntu.ssh.password = "vagrant"
+  end
+
+  config.vm.define :clienteUbuntu do |clienteUbuntu|
+    clienteUbuntu.vm.box = "bento/ubuntu-22.04"
+    clienteUbuntu.vm.network :private_network, ip: "192.168.100.2"
+    clienteUbuntu.vm.hostname = "clienteUbuntu"
+    clienteUbuntu.vm.boot_timeout = 600
+    clienteUbuntu.vm.provision "shell", path: "script.sh"
+    clienteUbuntu.vm.box_download_insecure = true
+    clienteUbuntu.ssh.username = "vagrant"
+    clienteUbuntu.ssh.password = "vagrant"
+  end
+
+  config.vm.define :clienteUbuntuDos do |clienteUbuntuDos|
+    clienteUbuntuDos.vm.box = "bento/ubuntu-22.04"
+    clienteUbuntuDos.vm.network :private_network, ip: "192.168.100.4"
+    clienteUbuntuDos.vm.hostname = "clienteUbuntuDos"
+    clienteUbuntuDos.vm.boot_timeout = 600
+    clienteUbuntuDos.vm.provision "shell", path: "scriptDos.sh"
+    clienteUbuntuDos.vm.box_download_insecure = true
+    clienteUbuntuDos.vm.synced_folder ".", "/home/vagrant/", type: "rsync"
+    clienteUbuntuDos.ssh.username = "vagrant"
+    clienteUbuntuDos.ssh.password = "vagrant"
+  end
+
+  config.vm.define :clienteUbuntuTres do |clienteUbuntuTres|
+    clienteUbuntuTres.vm.box = "bento/ubuntu-22.04"
+    clienteUbuntuTres.vm.network :private_network, ip: "192.168.100.5"
+    clienteUbuntuTres.vm.hostname = "clienteUbuntuTres"
+    clienteUbuntuTres.vm.boot_timeout = 600
+    clienteUbuntuTres.vm.provision "shell", path: "scriptTres.sh"
+    clienteUbuntuTres.vm.box_download_insecure = true
+    clienteUbuntuTres.vm.synced_folder ".", "/home/vagrant/", type: "rsync"
+    clienteUbuntuTres.ssh.username = "vagrant"
+    clienteUbuntuTres.ssh.password = "vagrant"
+  end
+
+end
+
